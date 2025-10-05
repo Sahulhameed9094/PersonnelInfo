@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" action="@Url.Action("Post","Staff")">
+            <div class="form-group">
+                <label>Last name</label>
+                <input type="text" class="form-control" name="LastName" placeholder="last name" required>
+            </div>
+
+            <div class="form-group">
+                <label>First name</label>
+                <input type="text" class="form-control" name="FirstName" placeholder="first name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Staff No</label>
+                <input type="text" class="form-control" name="StaffNo" placeholder="staff no" required>
+            </div>
+
+            <div class="form-group">
+                <label>Designation</label>
+                <input type="text" class="form-control" name="Designation" placeholder="designation" required>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <textarea class="form-control" name="address" placeholder="address" required></textarea>
+            </div>
+
+            <button class="btn btn-success" type="submit">Add Staff</button>
+        </form>
+    </div>
+</div>

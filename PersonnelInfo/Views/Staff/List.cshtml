@@ -1,0 +1,42 @@
+﻿@using PersonnelInfo.Models;
+@model List<Staff> 
+@{
+}
+<a href="@Url.Action("Create","Staff")">Create</a>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Staff No</th>
+                        <th>Last name</th>
+                        <th>First name</th>
+                        <th>Designation</th>
+                        <th>Address</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var staff in Model)
+            {
+                    <tr>
+                        <td>@staff.StaffNo</td>
+                        <td>@staff.LastName</td>
+                        <td>@staff.FirstName</td>
+                        <td>@staff.Designation</td>
+                        <td>@staff.Address</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit","Staff",new {id=staff.Id})">Edit</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-danger" href="@Url.Action("Delete","Staff",new {id=staff.Id})">Delete</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
