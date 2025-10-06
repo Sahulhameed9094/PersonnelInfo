@@ -29,8 +29,23 @@ steps:
       publishWebProjects: true
       arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
+  - task: FileTransform@2
+    inputs:
+      folderPath: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+      enableXmlTransform: false
+      enableJsonTransform : True
+      jsonTargetFiles: '**/appsettings.json'
+    
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'drop'
       publishLocation: 'Container'
+
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'Azure Free Tier(4a64603b-031a-45ca-8cd2-4b269cce3e99)'
+      appType: 'webApp'
+      appName: 'Staff-Mangement'
+      package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+      deploymentMethod: 'auto'
