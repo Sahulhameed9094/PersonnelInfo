@@ -10,8 +10,21 @@ pool:
   name: default
 
 variables:
+#  solution: '**/*.sln'
+#  buildPlatform: 'Any CPU'
+  projectPath: '$(Build.SourcesDirectory)/PersonnelInfo/PersonnelInfo.csproj'
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: '$(projectPath)'
+      arguments: '--configuration $(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: true
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
