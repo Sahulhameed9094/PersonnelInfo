@@ -15,21 +15,27 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: "Intall sdk............."
+  displayName: "Install .NET SDK"
   inputs:
     packageType: 'sdk'
     version: '8.x'
 
 - task: DotNetCoreCLI@2
-  displayName: "restore restore............."
+  displayName: "Restore dependencies"
   inputs:
     command: 'restore'
     projects: '$(projectPath)'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
-  displayName: "Build project............."
+  displayName: "Build project"
   inputs:
     command: 'build'
     projects: '$(projectPath)'
     arguments: '--configuration $(buildConfiguration) --no-restore'
+- task: DotNetCoreCLI@2
+  displayName: "Publish project to artifacts location"
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration $(buildConfiguration) --no-build --output $(Build.ArtifactStagingDirectory)'
