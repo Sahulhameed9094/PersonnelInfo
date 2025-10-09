@@ -1,0 +1,35 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+ name: Default                 # your self-hosted agent pool
+
+variables:
+  buildConfiguration: 'Release'
+  projectPath: '$(Build.SourcesDirectory)/PersonnelInfo/PersonnelInfo.csproj'
+
+steps:
+- task: UseDotNet@2
+  displayName: "Intall sdk............."
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+- task: DotNetCoreCLI@2
+  displayName: "restore restore............."
+  inputs:
+    command: 'restore'
+    projects: '$(projectPath)'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  displayName: "Build project............."
+  inputs:
+    command: 'build'
+    projects: '$(projectPath)'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
