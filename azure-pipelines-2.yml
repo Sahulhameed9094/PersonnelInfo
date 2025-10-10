@@ -46,6 +46,11 @@ steps:
       publishWebProjects: true
       arguments: "--configuration $(buildConfiguration) --no-build --output $(Build.ArtifactStagingDirectory)"
 
+  - powershell: |
+      Write-Host "Listing artifact staging contents:"
+      Get-ChildItem -Recurse "$(Build.ArtifactStagingDirectory)" | Select-Object FullName
+    displayName: "List files in A.S.D."
+
   - task: PublishBuildArtifacts@1
     displayName: "Upload build artifact"
     inputs:
