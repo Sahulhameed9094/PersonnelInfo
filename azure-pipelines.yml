@@ -3,49 +3,48 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-trigger:
-- master
+trigger: none
 
 pool:
   name: default
-  vmImage: 'Custom-agent'
+  vmImage: "Custom-agent"
 
 variables:
-#  solution: '**/*.sln'
-#  buildPlatform: 'Any CPU'
-  projectPath: '$(Build.SourcesDirectory)/PersonnelInfo/PersonnelInfo.csproj'
-  buildConfiguration: 'Release'
+  #  solution: '**/*.sln'
+  #  buildPlatform: 'Any CPU'
+  projectPath: "$(Build.SourcesDirectory)/PersonnelInfo/PersonnelInfo.csproj"
+  buildConfiguration: "Release"
 
 steps:
   - task: DotNetCoreCLI@2
     inputs:
-      command: 'build'
-      projects: '$(projectPath)'
-      arguments: '--configuration $(buildConfiguration)'
+      command: "build"
+      projects: "$(projectPath)"
+      arguments: "--configuration $(buildConfiguration)"
 
   - task: DotNetCoreCLI@2
     inputs:
-      command: 'publish'
+      command: "publish"
       publishWebProjects: true
-      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
 
   - task: FileTransform@2
     inputs:
-      folderPath: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+      folderPath: "$(Build.ArtifactStagingDirectory)/**/*.zip"
       enableXmlTransform: false
-      enableJsonTransform : True
-      jsonTargetFiles: '**/appsettings.json'
-    
+      enableJsonTransform: True
+      jsonTargetFiles: "**/appsettings.json"
+
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+      PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "drop"
+      publishLocation: "Container"
 
   - task: AzureWebApp@1
     inputs:
-      azureSubscription: 'Azure Free Tier(4a64603b-031a-45ca-8cd2-4b269cce3e99)'
-      appType: 'webApp'
-      appName: 'Staff-Mangement'
-      package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-      deploymentMethod: 'auto'
+      azureSubscription: "Azure Free Tier(4a64603b-031a-45ca-8cd2-4b269cce3e99)"
+      appType: "webApp"
+      appName: "Staff-Mangement"
+      package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
+      deploymentMethod: "auto"

@@ -4,8 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 #Microsoft agent
-trigger:
-  - master
+trigger: none
 
 pool:
   vmImage: ubuntu-latest
@@ -40,6 +39,7 @@ steps:
       command: "build"
       projects: "$(projectPath)"
       arguments: "--configuration $(buildConfiguration) --no-restore"
+
   - task: DotNetCoreCLI@2
     displayName: "Publish project to artifacts location"
     inputs:
